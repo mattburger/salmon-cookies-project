@@ -14,7 +14,8 @@ html
   position: -webkit-sticky;
   position: sticky;
   top: 5px;
-  font-size: 14pt;
+  font-size: 24pt;
+  padding: 20px;
 }
 #nav a
 {
@@ -22,7 +23,7 @@ html
   display: block;
   color: black;
   text-align: center;
-  padding: 25px;
+  padding: 150px;
   border: solid;
   text-decoration: none;
   font-family: 'Open Sans';
@@ -31,8 +32,10 @@ html
 #nav-title
 {
   font-family: sans-serif;
-  font-size: 18pt;
+  font-size: 24pt;
   font-style: italic;
+  background-color: rgb(138, 112, 94);
+  padding: 25px;
 }
 
 h1
@@ -41,9 +44,9 @@ h1
   color: black;
   font-weight: bold;
   font-family: 'Open Sans', sans-serif;
-  font-size: 20pt;
+  font-size: 32pt;
   background-color: rgb(138, 112, 94);
-  padding 25px;
+  padding: 25px;
   border: 10px inset rgb(55,95,55);
   margin: 50px 10px 20px 10px;
 }
@@ -75,5 +78,15 @@ p
   text-align: center;
   font-family: 'Open Sans', sans-serif;
   font-size: 13pt;
-  padding: 20px;
+}
+#main-content
+{
+  border: dashed 10px;
+  padding: 50px;
+  margin: 50px 300px 20px 300px;
+  background-color: rgb(138, 112, 94);
+  font-size: 16pt;
+  font-family: Open Sans, sans-serif;
+  text-align: center;
+
 }
