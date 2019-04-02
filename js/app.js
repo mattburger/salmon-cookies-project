@@ -1,326 +1,113 @@
 'use strict';
 
-//generate customer data per location
-function customersPerHour(arr)
+var allLocations = [];
+var pike = ['Pike',23, 65, 6.3];
+var seaTac = ['SeaTac',3, 24, 1.2];
+var seattle = ['Seattle',11, 38, 3.7];
+var capitol = ['Capitol',20, 38, 2.3];
+var alki = ['Alki',2,16,4.6];
+var dataSet = [pike,seaTac,seattle,capitol,alki];
+var headerData = ['Location'];
+for(var i = 6; i < 12; i++)
 {
-  for( var i = 0; i < arr.length; i++)
-  {
-    arr[i] = Math.floor((Math.random() * 350) + 1);
-  }
-  return arr;
+  headerData.push(i + 'am');
 }
-
-//generate sales data per location
-function simSales(arr)
+for(var i = 12; i < 21; i++)
 {
-  for(var i = 0; i < arr.length; i++)
+  if(i > 12)
   {
-    arr[i] = Math.floor((Math.random() * 800) + 1);
+    headerData.push((i-12) + 'pm');
   }
-  return arr;
-}
-
-//total sales per location
-function totalSales(arr1)
-{
-  var tmpTotal = 0;
-  for(var i = 0; i < arr1.length; i++)
+  else
   {
-    tmpTotal += arr1[i];
+    headerData.push(i + 'pm');
   }
-  return tmpTotal;
 }
+console.log(headerData);
 
-//minimum customers/hour for the work day per location
-function minCust(arr2)
+function SalmonCookieLocation(name,minCust,maxCust,avgCook)
 {
-  var tmpMin = arr2[0];
-  for(var i = 1; i < arr2.length-1; i++)
+  this.name = name;
+  this.workDayHrs = 14;
+  this.minCustomers = minCust;
+  this.maxCustomer = maxCust;
+  this.avgCookies = avgCook;
+  this.customersHour = [];
+  this.cookiesHour = [];
+  this.totalCookiesDay = 0;
+  this.populateCustHr = function ()
   {
-    if(arr2[i+1] < tmpMin)
+    for(var i = 0; i < this.workDayHrs;i++)
     {
-      tmpMin = arr2[i];
+      this.customersHour.push(Math.floor((Math.random() * this.maxCustomer) + this.minCustomers));
     }
-  }
-  return tmpMin;
-}
-
-//customers/hour for the work day per location
-function maxCust(arr3)
-{
-  var tmpMax = arr3[0];
-  for(var i = 1; i < arr3.length-1; i++)
+    //console.log(this.customersHour);
+  };
+  this.populateCookiesAnHr = function ()
   {
-    if(arr3[i+1] > tmpMax)
+    for(var i = 0; i < this.customersHour.length; i++)
     {
-      tmpMax = arr3[i];
+      this.cookiesHour.push(Math.ceil(this.customersHour[i] * this.avgCookies));
     }
-  }
-  return tmpMax;
-}
-
-//calculate avg sales per location
-function avgCookie(cookieArr,custArr,avgArr)
-{
-  var len = ((cookieArr.length + custArr.length)/2);
-  if(len !== cookieArr.length || len !== custArr.length)
+    //console.log(this.cookiesHour);
+  };
+  this.calcTotalCookies = function ()
   {
-    console.log('Issue with Customer & Cookie arrays!');
-    alert('!!stopped due to error!!');
-    return;
-  }
-
-
-  for(var i = 0; i < len; i++ )
-  {
-    console.log('avrArr ' + avgArr[i]);
-    console.log('cookieArr '+ cookieArr[i]);
-    console.log('custArr ' + custArr[i]);
-    avgArr[i] = cookieArr[i]/custArr[i];
-  }
-  console.log('HERE!!!!');
-  console.log(avgArr);
-  return avgArr;
-}
-//values initialized to 0 will be updated by the functions above when     called.
-
-var location1 =
-{
-  locationName: '1st and Pike',
-  //holds sales data metrics.
-  salesByHour: [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  //total sales per day
-  totalSalesDay: 0,
-
-  //hourly customer data
-  customersByHour: [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-
-  //average cookie sales data
-  avgCookiePerCustHourly: [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-
-  //holds minimum customers value from
-  minimumCustomersHourly: 0,
-  maximumCustomersHourly: 0,
-  cookieDayAvg: 0,
-  roundTime: function()
-  {
-    var tmpTotalAvg = 0;
-    for(var i = 0; i < this.avgCookiePerCustHourly.length; i++)
+    for(var i = 0; i < this.cookiesHour.length; i++)
     {
-      tmpTotalAvg += this.avgCookiePerCustHourly[i];
-      //console.log('loc1['+i+']: ' + this.avgCookiePerCustHourly[i]);
+      this.totalCookiesDay += this.cookiesHour[i];
     }
-    tmpTotalAvg = tmpTotalAvg/this.avgCookiePerCustHourly.length;
-    return tmpTotalAvg.toFixed(2);
+    //console.log(this.totalCookiesDay);
+  };
+  allLocations.push(this);
+}
+
+for(var i = 0; i < dataSet.length; i++)
+{
+  new SalmonCookieLocation(dataSet[i][0],dataSet[i][1],dataSet[i][2],dataSet[i][3]);
+}
+for(i = 0; i < allLocations.length; i++)
+{
+  allLocations[i].populateCustHr();
+  allLocations[i].populateCookiesAnHr();
+  allLocations[i].calcTotalCookies();
+}
+//console.table(allLocations);
+
+//thanks Sam!
+SalmonCookieLocation.render = function()
+{
+  var trEl = document.createElement('tr');
+  var tdEl = document.createElement('td');
+  tdEl.textContent = this.name;
+  trEl.appendChile(tdEl);
+
+  for(var i = 0; i < this.customersHour.length; i++)
+  {
+    tdEl.textContent = 'Customers: ' + this.customersHour[i] + '\nCookies: ' + this.cookiesHour[i];
+    trEl.appendChild(tdEl);
   }
 };
-//updating values of location1
-location1.salesByHour = simSales(location1.salesByHour);
-console.log(location1.salesByHour);
-location1.totalSalesDay = totalSales(location1.totalSalesDay);
-location1.customersByHour = customersPerHour(location1.customersByHour);
-location1.avgCookiePerCustHourly = avgCookie(location1.salesByHour,location1.customersByHour,location1.avgCookiePerCustHourly);
-console.log('WTF is going on: ' + location1.avgCookiePerCustHourly);
-location1.minimumCustomersHourly = minCust(location1.customersByHour);
-location1.maximumCustomersHourly = maxCust(location1.customersByHour);
-location1.cookieDayAvg = location1.roundTime();
 
-//refer to comments within lines 85 - 119
-var location2 =
+//Thanks Sam!
+function makeHeaderRow()
 {
-  locationName: 'SeaTac Airport',
-  salesByHour: [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  totalSalesDay: 0,
-  customersByHour: [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  avgCookiePerCustHourly: [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  minimumCustomersHourly: 0,
-  maximumCustomersHourly: 0,
-  cookieDayAvg: 0,
-  roundTime: function()
+  var trEl = document.createElement('tr');
+  var thEl = document.createElement('th');
+  for(var i = 0; i < headerData.length; i++)
   {
-    var tmpTotalAvg = 0;
-    for(var i = 0; i < this.avgCookiePerCustHourly.length; i++)
-    {
-      tmpTotalAvg += this.avgCookiePerCustHourly[i];
-      //console.log('loc2['+i+']: ' + this.avgCookiePerCustHourly[i]);
-    }
-    tmpTotalAvg = tmpTotalAvg/this.avgCookiePerCustHourly.length;
-    return tmpTotalAvg.toFixed(2);
-  }
-};
-location2.salesByHour = simSales(location2.salesByHour);
-console.log(location2.salesByHour);
-location2.totalSalesDay = totalSales(location2.totalSalesDay);
-location2.customersByHour = customersPerHour(location2.customersByHour);
-location2.avgCookiePerCustHourly = avgCookie(location2.salesByHour,location2.customersByHour,location2.avgCookiePerCustHourly);
-location2.minimumCustomersHourly = minCust(location2.customersByHour);
-location2.maximumCustomersHourly = maxCust(location2.customersByHour);
-location2.cookieDayAvg = location1.roundTime();
-
-//refer to comments within lines 85 - 119
-var location3 =
-{
-  locationName: 'Seattle Center',
-  salesByHour: [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  totalSalesDay: 0,
-  customersByHour: [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  avgCookiePerCustHourly: [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  minimumCustomersHourly: 0,
-  maximumCustomersHourly: 0,
-  cookieDayAvg: 0,
-  roundTime: function()
-  {
-    var tmpTotalAvg = 0;
-    for(var i = 0; i < this.avgCookiePerCustHourly.length; i++)
-    {
-      tmpTotalAvg += this.avgCookiePerCustHourly[i];
-      console.log('loc3['+i+']: ' + this.avgCookiePerCustHourly[i]);
-    }
-    tmpTotalAvg = tmpTotalAvg/this.avgCookiePerCustHourly.length;
-    return tmpTotalAvg.toFixed(2);
-  }
-};
-location3.salesByHour = simSales(location3.salesByHour);
-location3.totalSalesDay = totalSales(location3.totalSalesDay);
-location3.customersByHour = customersPerHour(location3.customersByHour);
-location3.avgCookiePerCustHourly = avgCookie(location3.salesByHour,location3.customersByHour,location3.avgCookiePerCustHourly);
-location3.minimumCustomersHourly = minCust(location3.customersByHour);
-location3.maximumCustomersHourly = maxCust(location3.customersByHour);
-location3.cookieDayAvg = location1.roundTime();
-
-//refer to comments within lines 85 - 119
-var location4 =
-{
-  locationName: 'Captiol Hill',
-  salesByHour: [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  totalSalesDay: 0,
-  customersByHour: [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  avgCookiePerCustHourly: [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  minimumCustomersHourly: 0,
-  maximumCustomersHourly: 0,
-  cookieDayAvg: 0,
-  roundTime: function()
-  {
-    var tmpTotalAvg = 0;
-    for(var i = 0; i < this.avgCookiePerCustHourly.length; i++)
-    {
-      tmpTotalAvg += this.avgCookiePerCustHourly[i];
-      console.log('loc14'+i+']: ' + this.avgCookiePerCustHourly[i]);
-    }
-    tmpTotalAvg = tmpTotalAvg/this.avgCookiePerCustHourly.length;
-    return tmpTotalAvg.toFixed(2);
-  }
-};
-location4.salesByHour = simSales(location4.salesByHour);
-location4.totalSalesDay = totalSales(location4.totalSalesDay);
-location4.customersByHour = customersPerHour(location4.customersByHour);
-location4.avgCookiePerCustHourly = avgCookie(location4.salesByHour,location4.customersByHour,location4.avgCookiePerCustHourly);
-location4.minimumCustomersHourly = minCust(location4.customersByHour);
-location4.maximumCustomersHourly = maxCust(location4.customersByHour);
-location4.cookieDayAvg = location1.roundTime();
-
-//refer to comments within lines 85 - 119
-var location5 =
-{
-  locationName: 'Alki',
-  salesByHour: [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  totalSalesDay: 0,
-  customersByHour: [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  avgCookiePerCustHourly: [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  minimumCustomersHourly: 0,
-  maximumCustomersHourly: 0,
-  cookieDayAvg: 0,
-  roundTime: function()
-  {
-    var tmpTotalAvg = 0;
-    for(var i = 0; i < this.avgCookiePerCustHourly.length; i++)
-    {
-      tmpTotalAvg += this.avgCookiePerCustHourly[i];
-      console.log('loc5['+i+']: ' + this.avgCookiePerCustHourly[i]);
-    }
-    tmpTotalAvg = tmpTotalAvg/this.avgCookiePerCustHourly.length;
-    return tmpTotalAvg.toFixed(2);
-  }
-};
-location5.salesByHour = simSales(location5.salesByHour);
-location5.totalSalesDay = totalSales(location5.totalSalesDay);
-location5.customersByHour = customersPerHour(location5.customersByHour);
-location5.avgCookiePerCustHourly = avgCookie(location5.salesByHour,location5.customersByHour,location5.avgCookiePerCustHourly);
-location5.minimumCustomersHourly = minCust(location5.customersByHour);
-location5.maximumCustomersHourly = maxCust(location5.customersByHour);
-location5.cookieDayAvg = location1.roundTime();
-
-//to use for the sales home page table build
-var llArr = [location1,location2,location3,location4,location5];
-/*
-for(var i = 0; i < llArr.length; i++)
-{
-  console.log('location' + (i+1));
-  console.log(llArr[i].cookieDayAvg);
-}*/
-
-
-//builds the hourly sales list per location
-function buildList(tag, location)
-{
-  var ulTag = document.getElementById(tag);
-  var text = '!' + location.locationName + '!';
-  var textNode = document.createTextNode(text);
-  var locTime = 0;
-  var node = document.createElement('li');
-  node.appendChild(textNode);
-  ulTag.appendChild(node);
-  for(var i = 0; i < location.salesByHour.length; i++)
-  {
-    if(i < 6)
-    {
-      locTime = i + 6;
-      node = document.createElement('li');
-      text = locTime + 'AM: ' + location.salesByHour[i];
-      textNode = document.createTextNode(text);
-      node.appendChild(textNode);
-      ulTag.appendChild(node);
-    }
-    else
-    {
-      locTime = i - 5;
-      node = document.createElement('li');
-      text = locTime + 'PM: ' + location.salesByHour[i];
-      textNode = document.createTextNode(text);
-      node.appendChild(textNode);
-      ulTag.appendChild(node);
-    }
+    thEl.textContent = headerData[i];
+    trEl.appendChild(thEl);
   }
 }
 
-//builds table
-function buildTable(tag, arg)
+//thanks Sam!
+function renderLocations()
 {
-  var tableName = document.getElementById(tag);
-  var row = tableName.insertRow();
-  var locCell = row.insertCell();
-  var minCustCell = row.insertCell();
-  var maxCustCell = row.insertCell();
-  var avgCookieSaleCell = row.insertCell();
-  locCell.innerHTML = arg.locationName;
-  minCustCell.innerHTML = arg.minimumCustomersHourly;
-  maxCustCell.innerHTML = arg.maximumCustomersHourly;
-  avgCookieSaleCell.innerHTML = arg.roundTime();
-  console.log('call buildTable()');
-  console.log(arg.cookieDayAvg);
-}
-//builds table data for all locations on sales.html
-function salesBuild(tag)
-{
-  console.log('All values withing llArr:');
-  console.log(llArr);
-  for(var i = 0; i < llArr.length; i++)
+  for(var i = 0; i < allLocations.length; i++)
   {
-    buildTable(tag,llArr[i]);
-  }
-  for(i = 0; i < llArr.length; i++)
-  {
-    buildList(tag,llArr[i]);
+    allLocations[i].render();
   }
 }
-salesBuild('table-home');
+makeHeaderRow();
+renderLocations();
