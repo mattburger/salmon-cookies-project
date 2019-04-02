@@ -1,5 +1,6 @@
 'use strict'
 
+//generate customer data per location
 function customersPerHour(arr)
 {
   for( var i = 0; i < arr.length; i++)
@@ -9,6 +10,7 @@ function customersPerHour(arr)
   return arr;
 }
 
+//generate sales data per location
 function simSales(arr)
 {
   for(var i = 0; i < arr.length; i++)
@@ -18,6 +20,7 @@ function simSales(arr)
   return arr;
 }
 
+//total sales per location
 function totalSales(arr1)
 {
   var tmpTotal = 0;
@@ -28,6 +31,7 @@ function totalSales(arr1)
   return tmpTotal;
 }
 
+//minimum customers/hour for the work day per location
 function minCust(arr2)
 {
   var tmpMin = arr2[0];
@@ -41,6 +45,7 @@ function minCust(arr2)
   return tmpMin;
 }
 
+//customers/hour for the work day per location
 function maxCust(arr3)
 {
   var tmpMax = arr3[0];
@@ -54,6 +59,7 @@ function maxCust(arr3)
   return tmpMax;
 }
 
+//calculate avg sales per location
 function avgCookie(cookieArr,custArr,avgArr)
 {
   var len = ((cookieArr.length + custArr.length)/2);
@@ -76,14 +82,25 @@ function avgCookie(cookieArr,custArr,avgArr)
   console.log(avgArr);
   return avgArr;
 }
+//values initialized to 0 will be updated by the functions above when     called.
 
 var location1 = 
 {
   locationName: '1st and Pike',
+  
+  //holds sales data
   salesByHour: [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  
+  //total sales per day
   totalSalesDay: 0,
+
+   //hourly customer data
   customersByHour: [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  avgCookiePerCustHourly: [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+
+  //average cookie sales data
+  avgCookiePerCustHourly: [0,0,0,0,0,0,0,0,0,0,0,0,0,0], 
+  
+  //holds minimum customers value from 
   minimumCustomersHourly: 0,
   maximumCustomersHourly: 0,
   cookieDayAvg: 0,
@@ -99,6 +116,7 @@ var location1 =
       return tmpTotalAvg.toFixed(2);
     }
 };
+//updating values of location1
 location1.salesByHour = simSales(location1.salesByHour);
 console.log(location1.salesByHour);
 location1.totalSalesDay = totalSales(location1.totalSalesDay);
@@ -109,6 +127,7 @@ location1.minimumCustomersHourly = minCust(location1.customersByHour);
 location1.maximumCustomersHourly = maxCust(location1.customersByHour);
 location1.cookieDayAvg = location1.roundTime();
 
+//refer to comments within lines 85 - 119
 var location2 = 
 {
   locationName: 'SeaTac Airport',
@@ -140,6 +159,7 @@ location2.minimumCustomersHourly = minCust(location2.customersByHour);
 location2.maximumCustomersHourly = maxCust(location2.customersByHour);
 location2.cookieDayAvg = location1.roundTime();
 
+//refer to comments within lines 85 - 119
 var location3 = 
 {
   locationName: 'Seattle Center',
@@ -170,6 +190,7 @@ location3.minimumCustomersHourly = minCust(location3.customersByHour);
 location3.maximumCustomersHourly = maxCust(location3.customersByHour);
 location3.cookieDayAvg = location1.roundTime();
 
+//refer to comments within lines 85 - 119
 var location4 = 
 {
   locationName: 'Captiol Hill',
@@ -199,6 +220,8 @@ location4.avgCookiePerCustHourly = avgCookie(location4.salesByHour,location4.cus
 location4.minimumCustomersHourly = minCust(location4.customersByHour);
 location4.maximumCustomersHourly = maxCust(location4.customersByHour);
 location4.cookieDayAvg = location1.roundTime();
+
+//refer to comments within lines 85 - 119
 var location5 = 
 {
   locationName: 'Alki',
@@ -231,11 +254,12 @@ location5.cookieDayAvg = location1.roundTime();
 
 //to use for the sales home page table build
 var llArr = [location1,location2,location3,location4,location5];
+/*
 for(var i = 0; i < llArr.length; i++)
 {
   console.log('location' + (i+1));
   console.log(llArr[i].cookieDayAvg);
-}
+}*/
 
 
 //builds the hourly sales list per location
@@ -268,6 +292,7 @@ function buildList(tag, location)
   }
 }
 
+//builds table
 function buildTable(tag, arg)
 {
   var tableName = document.getElementById(tag);
@@ -284,32 +309,37 @@ function buildTable(tag, arg)
   console.log(arg.cookieDayAvg);
 }
 
+//builds list and table for location1
 function loc1Build()
 {
   buildList('list-loc1', location1);
   buildTable('table-loc1', llArr[0]);
 }
+//builds list and table for location2
 function loc2Build()
 {
   buildList('list-loc2', location2);
   buildTable('table-loc2', location2);
 }
+//builds list and table for location3
 function loc3Build()
 {
   buildList('list-loc3', location3);
   buildTable('table-loc3', location3);
 }
+//builds list and table for location4
 function loc4Build()
 {
   buildList('list-loc4', location4);
   buildTable('table-loc4', location4);
 }
+//builds list and table for location5
 function loc5Build()
 {
   buildList('list-loc5', location5);
   buildTable('table-loc5', location5);
 }
-
+//builds table data for all locations on sales.html
 function salesBuild(tag)
 {
   console.log('All values withing llArr:');
