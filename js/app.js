@@ -72,6 +72,8 @@ function avgCookie(cookieArr,custArr,avgArr)
     avgArr[i] = cookieArr[i]/custArr[i];
     
   }
+  console.log('HERE!!!!');
+  console.log(avgArr);
   return avgArr;
 }
 
@@ -277,8 +279,9 @@ function buildTable(tag, arg)
   locCell.innerHTML = arg.locationName;
   minCustCell.innerHTML = arg.minimumCustomersHourly;
   maxCustCell.innerHTML = arg.maximumCustomersHourly;
-  avgCookieSaleCell.innerHTML = arg.cookieDayAvg;
-  console.log(arg.minimumCustomersHourly);
+  avgCookieSaleCell.innerHTML = arg.roundTime();
+  console.log('call buildTable()');
+  console.log(arg.cookieDayAvg);
 }
 
 function loc1Build()
@@ -309,6 +312,7 @@ function loc5Build()
 
 function salesBuild(tag)
 {
+  console.log('All values withing llArr:');
   console.log(llArr);
   for(var i = 0; i < llArr.length; i++)
   {
