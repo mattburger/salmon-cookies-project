@@ -2,6 +2,7 @@
 var cookies = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 var customers = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 var avgByHr = [0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+
 function customersPerHour(arr)
 {
   for( var i = 0; i < arr.length; i++)
@@ -73,6 +74,7 @@ function avgCookie(cookieArr,custArr,avgArr)
   }
   return avgArr;
 }
+
 function roundAvg(someNumber)
 {
   return Math.round((10*someNumber)/10);
@@ -80,6 +82,7 @@ function roundAvg(someNumber)
 
 var location1 = 
 {
+  locationName: '1st and Pike',
   salesByHour: simSales(cookies),
   totalSalesDay: totalSales(cookies),
   customersByHour: customersPerHour(customers),
@@ -88,59 +91,174 @@ var location1 =
   maximumCustomersHourly: maxCust(customers),
   roundTime: function()
     {
+      var tmpTotalAvg = 0;
       for(var i = 0; i < this.avgCookiePerCustHourly.length; i++)
       {
         this.avgCookiePerCustHourly[i] = roundAvg(this.avgCookiePerCustHourly[i]);
+
+        tmpTotalAvg += this.avgCookiePerCustHourly[i];
       }
+      tmpTotalAvg = tmpTotalAvg/this.avgCookiePerCustHourly.length;
+      return roundAvg(tmpTotalAvg);
     }
 };
-var ulTag = document.getElementById('list-loc1');
-
-var textNode;
-var text = '';
-var locTime = 0;
-for(var i = 0; i < location1.salesByHour.length; i++)
+var location2 = 
 {
-  if(i < 6)
+  locationName: 'SeaTac Airport',
+  salesByHour: simSales(cookies),
+  totalSalesDay: totalSales(cookies),
+  customersByHour: customersPerHour(customers),
+  avgCookiePerCustHourly: avgCookie(cookies,customers,avgByHr),
+  minimumCustomersHourly: minCust(customers),
+  maximumCustomersHourly: maxCust(customers),
+  roundTime: function()
+    {
+      var tmpTotalAvg = 0;
+      for(var i = 0; i < this.avgCookiePerCustHourly.length; i++)
+      {
+        this.avgCookiePerCustHourly[i] = roundAvg(this.avgCookiePerCustHourly[i]);
+
+        tmpTotalAvg += this.avgCookiePerCustHourly[i];
+      }
+      tmpTotalAvg = tmpTotalAvg/this.avgCookiePerCustHourly.length;
+      return roundAvg(tmpTotalAvg);
+    }
+};
+var location3 = 
+{
+  locationName: 'Seattle Center',
+  salesByHour: simSales(cookies),
+  totalSalesDay: totalSales(cookies),
+  customersByHour: customersPerHour(customers),
+  avgCookiePerCustHourly: avgCookie(cookies,customers,avgByHr),
+  minimumCustomersHourly: minCust(customers),
+  maximumCustomersHourly: maxCust(customers),
+  roundTime: function()
+    {
+      var tmpTotalAvg = 0;
+      for(var i = 0; i < this.avgCookiePerCustHourly.length; i++)
+      {
+        this.avgCookiePerCustHourly[i] = roundAvg(this.avgCookiePerCustHourly[i]);
+
+        tmpTotalAvg += this.avgCookiePerCustHourly[i];
+      }
+      tmpTotalAvg = tmpTotalAvg/this.avgCookiePerCustHourly.length;
+      return roundAvg(tmpTotalAvg);
+    }
+};
+var location4 = 
+{
+  locationName: 'Captiol Hill',
+  salesByHour: simSales(cookies),
+  totalSalesDay: totalSales(cookies),
+  customersByHour: customersPerHour(customers),
+  avgCookiePerCustHourly: avgCookie(cookies,customers,avgByHr),
+  minimumCustomersHourly: minCust(customers),
+  maximumCustomersHourly: maxCust(customers),
+  roundTime: function()
+    {
+      var tmpTotalAvg = 0;
+      for(var i = 0; i < this.avgCookiePerCustHourly.length; i++)
+      {
+        this.avgCookiePerCustHourly[i] = roundAvg(this.avgCookiePerCustHourly[i]);
+
+        tmpTotalAvg += this.avgCookiePerCustHourly[i];
+      }
+      tmpTotalAvg = tmpTotalAvg/this.avgCookiePerCustHourly.length;
+      return roundAvg(tmpTotalAvg);
+    }
+};
+var location5 = 
+{
+  locationName: 'Alki',
+  salesByHour: simSales(cookies),
+  totalSalesDay: totalSales(cookies),
+  customersByHour: customersPerHour(customers),
+  avgCookiePerCustHourly: avgCookie(cookies,customers,avgByHr),
+  minimumCustomersHourly: minCust(customers),
+  maximumCustomersHourly: maxCust(customers),
+  roundTime: function()
+    {
+      var tmpTotalAvg = 0;
+      for(var i = 0; i < this.avgCookiePerCustHourly.length; i++)
+      {
+        this.avgCookiePerCustHourly[i] = roundAvg(this.avgCookiePerCustHourly[i]);
+
+        tmpTotalAvg += this.avgCookiePerCustHourly[i];
+      }
+      tmpTotalAvg = tmpTotalAvg/this.avgCookiePerCustHourly.length;
+      return roundAvg(tmpTotalAvg);
+    }
+};
+
+//builds the hourly sales list per location
+function buildList(tag, location)
+{
+  var ulTag = document.getElementById(tag);
+  var textNode;
+  var text = '';
+  var locTime = 0;
+  for(var i = 0; i < location.salesByHour.length; i++)
   {
-    locTime = i + 6;
-    var node = document.createElement('li');
-    text = '(' + locTime + 'AM) ' + location1.salesByHour[i];
-    textNode = document.createTextNode(text);
-    node.appendChild(textNode);
-    ulTag.appendChild(node);
-  }
-  else
-  {
-    locTime = i - 5;
-    var node = document.createElement('li');
-    text = '(' + locTime + 'PM) ' + location1.salesByHour[i];
-    textNode = document.createTextNode(text);
-    node.appendChild(textNode);
-    ulTag.appendChild(node);
+    if(i < 6)
+    {
+      locTime = i + 6;
+      var node = document.createElement('li');
+      text = '(' + locTime + 'AM) ' + location.salesByHour[i];
+      textNode = document.createTextNode(text);
+      node.appendChild(textNode);
+      ulTag.appendChild(node);
+    }
+    else
+    {
+      locTime = i - 5;
+      var node = document.createElement('li');
+      text = '(' + locTime + 'PM) ' + location.salesByHour[i];
+      textNode = document.createTextNode(text);
+      node.appendChild(textNode);
+      ulTag.appendChild(node);
+    }
   }
 }
 
-for(var i = 0; i < location1.salesByHour.length; i++)
+function buildTable(tag, location)
 {
-  if(i < 6)
-  {
-    locTime = i + 6;
-    var node = document.createElement('li');
-    text = '(' + locTime + 'AM) ' + location1.salesByHour[i];
-    textNode = document.createTextNode(text);
-    node.appendChild(textNode);
-    ulTag.appendChild(node);
-  }
-  else
-  {
-    locTime = i - 5;
-    var node = document.createElement('li');
-    text = '(' + locTime + 'PM) ' + location1.salesByHour[i];
-    textNode = document.createTextNode(text);
-    node.appendChild(textNode);
-    ulTag.appendChild(node);
-  }
+  var tableName = document.getElementById(tag);
+  var row = tableName.insertRow();
+  var locCell = row.insertCell();
+  var minCustCell = row.insertCell();
+  var maxCustCell = row.insertCell();
+  var avgCookieSaleCell = row.insertCell();
+  locCell.innerHTML = location.locationName;
+  minCustCell.innerHTML = location.minimumCustomersHourly;
+  maxCustCell.innerHTML = location.maximumCustomersHourly;
+  avgCookieSaleCell.innerHTML = location.roundTime();
+}
+
+function loc1Build()
+{
+  buildList('list-loc1', location1);
+  buildTable('table-loc1', location1);
+}
+function loc2Build()
+{
+  buildList('list-loc2', location2);
+  buildTable('table-loc2', location2);
+}
+function loc3Build()
+{
+  buildList('list-loc3', location3);
+  buildTable('table-loc3', location3);
+}
+function loc4Build()
+{
+  buildList('list-loc4', location4);
+  buildTable('table-loc4', location4);
+}
+function loc5()
+{
+  buildList('list-loc5', location5);
+  buildTable('table-loc5', location5);
 }
 
 console.log('location1');
