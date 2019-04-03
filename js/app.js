@@ -58,8 +58,8 @@ function SalmonCookieLocation(name,minCust,maxCust,avgCook)
       this.totalCookiesDay += this.cookiesHour[i];
     }
     //console.log(this.totalCookiesDay);
-    console.log(this.cookiesHour.length);
-    console.log(this.cookiesHour);
+    //console.log(this.cookiesHour.length);
+    //console.log(this.cookiesHour);
   };
   allLocations.push(this);
 }
@@ -74,7 +74,8 @@ for(i = 0; i < allLocations.length; i++)
   allLocations[i].populateCookiesAnHr();
   allLocations[i].calcTotalCookies();
 }
-//console.table(allLocations);
+// console.table(allLocations);
+// console.log(allLocations);
 
 //thanks Sam!
 var daTable = document.getElementById('table-sales');
@@ -89,17 +90,18 @@ SalmonCookieLocation.prototype.render = function()
   {
     tdEl = document.createElement('td');
     tdEl.textContent = 'Customers: ' + this.customersHour[i] + '\nCookies: ' + this.cookiesHour[i];
-    trEl.appendChild(tdEl);
-    //daTable.appendChild(trEl);
+    trEl.appendChild(tdEl); 
     //console.log(this.customersHour.length);
     //console.log('in render()');
     //console.log(tdEl);
     //console.log(trEl);
-    
-    //daTable.appendChild(trEl);
   }
+  tdEl = document.createElement('td');
+  tdEl.textContent = this.totalCookiesDay;
+  trEl.appendChild(tdEl);
   daTable.appendChild(trEl);
 };
+
 
 //Thanks Sam!
 /*function makeHeaderRow()
@@ -128,3 +130,4 @@ function renderLocations()
 }
 //makeHeaderRow();
 renderLocations();
+
