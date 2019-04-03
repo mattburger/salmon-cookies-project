@@ -135,7 +135,7 @@ function renderLocations()
 /*form handling area */
 
 
-var storeForm = document.getElementById('new-store');
+var storeForm = document.getElementById('addStore');
 
 var nStore = function(storeName, customerMinData, customerMaxData, cookieData)
 {
@@ -160,14 +160,16 @@ function handleSubmit(event)
 
   new SalmonCookieLocation(tmpStore.storeName,tmpStore.customerMinData,tmpStore.customerMaxData,tmpStore.cookieData);
 
-  
+  allLocations[allLocations.length-1].populateCustHr;
+  allLocations[allLocations.length-1].populateCookiesAnHr;
+
+  allLocations[allLocations.length-1].render();
 }
 /*form handling area*/
 
 
 
 makeHeaderRow(hData);
-
 renderLocations();
+storeForm.addEventListener('submit',handleSubmit);
 makeHeaderRow(headerData);
-
