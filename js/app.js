@@ -7,23 +7,22 @@ var seattle = ['Seattle',11, 38, 3.7];
 var capitol = ['Capitol',20, 38, 2.3];
 var alki = ['Alki',2,16,4.6];
 var dataSet = [pike,seaTac,seattle,capitol,alki];
-var headerData = ['Location'];
+var hData = ['Location'];
 for(var i = 6; i < 12; i++)
 {
-  headerData.push(i + 'am');
+  hData.push(i + 'am');
 }
 for(i = 12; i < 21; i++)
 {
   if(i > 12)
   {
-    headerData.push((i-12) + 'pm');
+    hData.push((i-12) + 'pm');
   }
   else
   {
-    headerData.push(i + 'pm');
+    hData.push(i + 'pm');
   }
 }
-//console.log(headerData);
 
 function SalmonCookieLocation(name,minCust,maxCust,avgCook)
 {
@@ -34,14 +33,13 @@ function SalmonCookieLocation(name,minCust,maxCust,avgCook)
   this.avgCookies = avgCook;
   this.customersHour = [];
   this.cookiesHour = [];
-  this.totalCookiesDay = 0;
   this.populateCustHr = function ()
   {
     for(var i = 0; i < this.workDayHrs;i++)
     {
-      this.customersHour.push(Math.floor((Math.random() * this.maxCustomer) + this.minCustomers));
+      this.customersHour.push(rand(this.minCustomers, this.maxCustomer));
     }
-    //console.log(this.customersHour);
+
   };
   this.populateCookiesAnHr = function ()
   {
@@ -49,33 +47,45 @@ function SalmonCookieLocation(name,minCust,maxCust,avgCook)
     {
       this.cookiesHour.push(Math.ceil(this.customersHour[i] * this.avgCookies));
     }
-    //console.log(this.cookiesHour);
   };
-  this.calcTotalCookies = function ()
-  {
-    for(var i = 0; i < this.cookiesHour.length; i++)
-    {
-      this.totalCookiesDay += this.cookiesHour[i];
-    }
-    //console.log(this.totalCookiesDay);
-    //console.log(this.cookiesHour.length);
-    //console.log(this.cookiesHour);
-  };
+
   allLocations.push(this);
 }
 
-for(i = 0; i < dataSet.length; i++)
+//Thanks Sam!
+function rand(min, max) 
 {
-  new SalmonCookieLocation(dataSet[i][0],dataSet[i][1],dataSet[i][2],dataSet[i][3]);
+  // following line line MDN Math.random docs
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-for(i = 0; i < allLocations.length; i++)
+
+var setLocData = function ()
 {
-  allLocations[i].populateCustHr();
-  allLocations[i].populateCookiesAnHr();
-  allLocations[i].calcTotalCookies();
+  for(i = 0; i < dataSet.length; i++)
+  {
+    new SalmonCookieLocation(dataSet[i][0],dataSet[i][1],dataSet[i][2],dataSet[i][3]);
+  }
+  for(i = 0; i < allLocations.length; i++)
+  {
+    allLocations[i].populateCustHr();
+    allLocations[i].populateCookiesAnHr();
+  }
+};
+setLocData();
+
+function totalCookiesPerHourAllLoc()
+{
+  var tmpHourlyCookieTotal = ['Total Cookies'];
+  for(var i = 0; i < allLocations[0].cookiesHour.length;i++)
+  {
+    tmpHourlyCookieTotal.push(0);
+    for(var j = 0; j < allLocations.length;j++)
+    {
+      tmpHourlyCookieTotal[i+1] += allLocations[j].cookiesHour[i];
+    }
+  }
+  return tmpHourlyCookieTotal;
 }
-// console.table(allLocations);
-// console.log(allLocations);
 
 //thanks Sam!
 var daTable = document.getElementById('table-sales');
@@ -85,41 +95,33 @@ SalmonCookieLocation.prototype.render = function()
   var tdEl = document.createElement('td');
   tdEl.textContent = this.name;
   trEl.appendChild(tdEl);
-  //daTable.appendChild(trEl);
   for(var i = 0; i < this.customersHour.length; i++)
   {
     tdEl = document.createElement('td');
     tdEl.textContent = 'Customers: ' + this.customersHour[i] + '\nCookies: ' + this.cookiesHour[i];
     trEl.appendChild(tdEl); 
-    //console.log(this.customersHour.length);
-    //console.log('in render()');
-    //console.log(tdEl);
-    //console.log(trEl);
   }
-  tdEl = document.createElement('td');
-  tdEl.textContent = this.totalCookiesDay;
   trEl.appendChild(tdEl);
   daTable.appendChild(trEl);
 };
 
-
+var headerData = totalCookiesPerHourAllLoc();
 //Thanks Sam!
-/*function makeHeaderRow()
+function makeHeaderRow(hd)
 {
-  var thEl = document.createElement('th');
-
-  for(var i = 0; i < headerData.length; i++)
+  var trEl = document.createElement('tr');
+  var thEl;
+  //trEl.appendChild(thEl);
+  for(var i = 0; i < hd.length; i++)
   {
-    var trEl = document.createElement('tr');
-    thEl.textContent = headerData[i];
+    thEl = document.createElement('th');
+    thEl.textContent = hd[i];
     trEl.appendChild(thEl);
-    console.log('in makeHeaderRow()');
-    console.log(thEl);
-    console.log(trEl);
+
   }
   daTable.appendChild(trEl);
 }
-*/
+
 //thanks Sam!
 function renderLocations()
 {
@@ -128,6 +130,8 @@ function renderLocations()
     allLocations[i].render();
   }
 }
-//makeHeaderRow();
+makeHeaderRow(hData);
+
 renderLocations();
+makeHeaderRow(headerData);
 
