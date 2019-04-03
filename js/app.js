@@ -12,7 +12,7 @@ for(var i = 6; i < 12; i++)
 {
   headerData.push(i + 'am');
 }
-for(var i = 12; i < 21; i++)
+for(i = 12; i < 21; i++)
 {
   if(i > 12)
   {
@@ -23,12 +23,12 @@ for(var i = 12; i < 21; i++)
     headerData.push(i + 'pm');
   }
 }
-console.log(headerData);
+//console.log(headerData);
 
 function SalmonCookieLocation(name,minCust,maxCust,avgCook)
 {
   this.name = name;
-  this.workDayHrs = 14;
+  this.workDayHrs = 15;
   this.minCustomers = minCust;
   this.maxCustomer = maxCust;
   this.avgCookies = avgCook;
@@ -58,11 +58,13 @@ function SalmonCookieLocation(name,minCust,maxCust,avgCook)
       this.totalCookiesDay += this.cookiesHour[i];
     }
     //console.log(this.totalCookiesDay);
+    console.log(this.cookiesHour.length);
+    console.log(this.cookiesHour);
   };
   allLocations.push(this);
 }
 
-for(var i = 0; i < dataSet.length; i++)
+for(i = 0; i < dataSet.length; i++)
 {
   new SalmonCookieLocation(dataSet[i][0],dataSet[i][1],dataSet[i][2],dataSet[i][3]);
 }
@@ -75,32 +77,47 @@ for(i = 0; i < allLocations.length; i++)
 //console.table(allLocations);
 
 //thanks Sam!
-SalmonCookieLocation.render = function()
+var daTable = document.getElementById('table-sales');
+SalmonCookieLocation.prototype.render = function()
 {
   var trEl = document.createElement('tr');
   var tdEl = document.createElement('td');
   tdEl.textContent = this.name;
-  trEl.appendChile(tdEl);
-
+  trEl.appendChild(tdEl);
+  //daTable.appendChild(trEl);
   for(var i = 0; i < this.customersHour.length; i++)
   {
+    tdEl = document.createElement('td');
     tdEl.textContent = 'Customers: ' + this.customersHour[i] + '\nCookies: ' + this.cookiesHour[i];
     trEl.appendChild(tdEl);
+    //daTable.appendChild(trEl);
+    //console.log(this.customersHour.length);
+    //console.log('in render()');
+    //console.log(tdEl);
+    //console.log(trEl);
+    
+    //daTable.appendChild(trEl);
   }
+  daTable.appendChild(trEl);
 };
 
 //Thanks Sam!
-function makeHeaderRow()
+/*function makeHeaderRow()
 {
-  var trEl = document.createElement('tr');
   var thEl = document.createElement('th');
+
   for(var i = 0; i < headerData.length; i++)
   {
+    var trEl = document.createElement('tr');
     thEl.textContent = headerData[i];
     trEl.appendChild(thEl);
+    console.log('in makeHeaderRow()');
+    console.log(thEl);
+    console.log(trEl);
   }
+  daTable.appendChild(trEl);
 }
-
+*/
 //thanks Sam!
 function renderLocations()
 {
@@ -109,5 +126,5 @@ function renderLocations()
     allLocations[i].render();
   }
 }
-makeHeaderRow();
+//makeHeaderRow();
 renderLocations();
