@@ -16,6 +16,21 @@
       </nav>
       <h1>Our Numbers</h1>
 
+      <form id = 'add-store'>
+        <fieldset>
+          <Legend>New Store Input</Legend>
+          <label>Store Name</label>
+          <input name = sName type = "text" size = "16" placeholder='New Store Name' required/>
+          <label>Min Customer Data</label>
+          <input name = custMinD type = "number" size = "16" placeholder="customer metrics" required/>
+          <label>Max Customer Data</label>
+          <input name = custMaxD type = "number" size = "16" placeholder="customer metrics" required/>
+          <label>Cookie Data</label>
+          <input name = cookD type = "number" size = "16" placeholder="cookie metrics" required/>
+          <button type ="submit">Create Store</button>
+        </fieldset>
+      </form>
+
       <table id = 'table-sales'></table>
     </main>
     <script src = '../js/app.js'></script>

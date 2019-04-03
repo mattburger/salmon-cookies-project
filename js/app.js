@@ -130,6 +130,42 @@ function renderLocations()
     allLocations[i].render();
   }
 }
+
+
+/*form handling area */
+
+
+var storeForm = document.getElementById('new-store');
+
+var nStore = function(storeName, customerMinData, customerMaxData, cookieData)
+{
+  this.storeName = storeName;
+  this.customerMinData = customerMinData;
+  this.customerMaxData = customerMaxData;
+  this.cookieData = cookieData;
+};
+
+function handleSubmit(event)
+{
+  event.preventDefault();
+  var tmpStoreName = event.target.sName.value;
+  var tmpCustomerMinData = event.target.custMinD.value;
+  var tmpCustomerMaxData = event.target.custMaxD.value;
+  var tmpCookieData = event.target.cookD.value;
+  if(!tmpStoreName || !tmpCustomerMinData || !tmpCustomerMaxData || !tmpCookieData)
+  {
+    alert('The fields must be filled to create a new store');
+  }
+  var tmpStore = new nStore(tmpStoreName,tmpCustomerMinData,tmpCustomerMaxData,tmpCookieData);
+
+  new SalmonCookieLocation(tmpStore.storeName,tmpStore.customerMinData,tmpStore.customerMaxData,tmpStore.cookieData);
+
+  
+}
+/*form handling area*/
+
+
+
 makeHeaderRow(hData);
 
 renderLocations();
