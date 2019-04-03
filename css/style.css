@@ -2,9 +2,12 @@
 
 html
 {
-  background-color: rgb(138, 112, 94);
+  background-color: rgb(219, 194, 177);
   background-image: url('../pictures/coffee.jpg');
   background-blend-mode: overlay; 
+  background-repeat: no-repeat;
+  background-position: center;
+
 }
 
 #navb
@@ -88,11 +91,21 @@ p
 #main-content
 {
   border: dashed 10px;
-  padding: 50px;
+  padding: 25px;
   margin: 50px 300px 20px 300px;
   background-color: rgb(138, 112, 94);
   font-size: 16pt;
   font-family: Open Sans, sans-serif;
   text-align: center;
 
+}
+#menu-list
+{
+  border: dashed 10px;
+  padding: 50px;
+  margin: 50px 500px 20px 500px;
+  background-color: rgb(138, 112, 94);
+  font-size: 16pt;
+  font-family: Open Sans, sans-serif;
+  text-align: center;
 }
