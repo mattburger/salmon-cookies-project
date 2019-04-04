@@ -20,16 +20,16 @@ html
   font-size: 24pt;
   padding: 20px;
 }
-#nav a
+#navb a
 {
   float: left;
   display: block;
   color: black;
   text-align: center;
-  padding: 150px;
+  padding: 5px;
   border: solid;
   text-decoration: none;
-  font-family: 'Open Sans';
+  font-family: 'Open Sans',sans-serif;
   /* font-size: 14pt; */
 }
 #nav-title
