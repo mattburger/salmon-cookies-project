@@ -123,6 +123,9 @@ SalmonCookieLocation.prototype.render = function()
 };
 
 var headerData = totalCookiesPerHourAllLoc();
+
+
+
 //Thanks Sam!
 function makeHeaderRow(hd)
 {
@@ -164,6 +167,7 @@ var nStore = function(storeName, customerMinData, customerMaxData, cookieData)
 
 function handleSubmit(event)
 {
+  console.log(document.getElementById('table-sales'));
   event.preventDefault();
   var tmpStoreName = event.target.sName.value;
   var tmpCustomerMinData = parseInt(event.target.custMinD.value);
@@ -182,12 +186,29 @@ function handleSubmit(event)
   console.log(allLocations[allLocations.length-4]);
   console.log(allLocations[allLocations.length-1]);
 
-  allLocations[allLocations.length-1].render();
+  emptyTable();
+  makeHeaderRow(hData);
+  renderLocations();
+  headerData = totalCookiesPerHourAllLoc();
+  makeHeaderRow(headerData);
 }
-//console.log(allLocations[allLocations.length-1]);
-/*form handling area*/
 
-makeHeaderRow(hData);
-renderLocations();
-storeForm.addEventListener('submit',handleSubmit);
-makeHeaderRow(headerData);
+function emptyTable()
+{
+  var len = daTable.rows.length;
+  for(var i = len - 1; i >= 0; i--)
+  {
+    document.getElementById('table-sales').deleteRow(i);
+  }
+}
+
+/*form handling area*/
+function loadTable()
+{
+  makeHeaderRow(hData);
+  renderLocations();
+  storeForm.addEventListener('submit',handleSubmit);
+  makeHeaderRow(headerData);
+  console.log(daTable);
+}
+loadTable();
