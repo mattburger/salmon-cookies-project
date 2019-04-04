@@ -123,8 +123,17 @@ SalmonCookieLocation.prototype.render = function()
 };
 
 var headerData = totalCookiesPerHourAllLoc();
+headerData.push(franchiseCookieTotal());
 
-
+function franchiseCookieTotal()
+{
+  var franchiseTotal = 0;
+  for(var i = 0; i < allLocations.length; i++)
+  {
+    franchiseTotal += allLocations[i].dayTotalCookies;
+  }
+  return franchiseTotal;
+}
 
 //Thanks Sam!
 function makeHeaderRow(hd)
@@ -182,6 +191,7 @@ function handleSubmit(event)
   makeHeaderRow(hData);
   renderLocations();
   headerData = totalCookiesPerHourAllLoc();
+  headerData.push(franchiseCookieTotal());
   makeHeaderRow(headerData);
 }
 
