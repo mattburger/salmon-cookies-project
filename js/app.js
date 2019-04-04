@@ -157,14 +157,6 @@ function renderLocations()
 
 var storeForm = document.getElementById('addStore');
 
-var nStore = function(storeName, customerMinData, customerMaxData, cookieData)
-{
-  this.storeName = storeName;
-  this.customerMinData = customerMinData;
-  this.customerMaxData = customerMaxData;
-  this.cookieData = cookieData;
-};
-
 function handleSubmit(event)
 {
   console.log(document.getElementById('table-sales'));
@@ -173,17 +165,17 @@ function handleSubmit(event)
   var tmpCustomerMinData = parseInt(event.target.custMinD.value);
   var tmpCustomerMaxData = parseInt(event.target.custMaxD.value);
   var tmpCookieData = parseFloat(event.target.cookD.value);
+
   if(!tmpStoreName || !tmpCustomerMinData || !tmpCustomerMaxData || !tmpCookieData)
   {
     alert('The fields must be filled to create a new store');
   }
-  var tmpStore = new nStore(tmpStoreName,tmpCustomerMinData,tmpCustomerMaxData,tmpCookieData);
 
-  new SalmonCookieLocation(tmpStore.storeName,tmpStore.customerMinData,tmpStore.customerMaxData,tmpStore.cookieData);
+  new SalmonCookieLocation(tmpStoreName,tmpCustomerMinData,tmpCustomerMaxData,tmpCookieData);
 
   allLocations[allLocations.length-1].populateCustHr();
   allLocations[allLocations.length-1].populateCookiesAnHr();
-  console.log(allLocations[allLocations.length-4]);
+  allLocations[allLocations.length-1].calcCookieDayTotal();
   console.log(allLocations[allLocations.length-1]);
 
   emptyTable();
