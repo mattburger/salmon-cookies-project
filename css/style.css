@@ -78,7 +78,26 @@ table, th, td
   background-color: rgb(138, 112, 94);
   padding: 10px;
   text-align: center;
+}
+#table-sales
+{
+  display: block;
+  overflow: auto;
+  height: 200px;
+  width: 75%;
+  margin: 25px auto;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+#tables-sales th tr
+{
+  display: block;
+}
 
+#table-sales th, #table-sales td {
+padding: 5px;
+text-align: left;
+width: 200px;
 }
 ul
 {
@@ -120,4 +139,17 @@ p
   font-size: 16pt;
   font-family: Open Sans, sans-serif;
   text-align: center;
+}
+
+#addStore
+{
+  margin: 25px auto;
+  border: 3px dashed;
+  width: 75%;
+}
+#addStore legend
+{
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 15px;
 }
